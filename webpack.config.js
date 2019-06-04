@@ -17,9 +17,21 @@ module.exports = {
         // new CleanWebpackPlugin(['dist/*']) for < v2 versions of CleanWebpackPlugin
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: 'Development'
+            title: 'Development',
+            inject : false,
+            template : require('html-webpack-template'),
+            appMountId: 'mount'
         })
     ],
+    module : {
+        rules: [{
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader'
+            }
+        }]
+    },
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
