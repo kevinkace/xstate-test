@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { useMachine } from '@xstate/react';
 import { Machine, interpret } from 'xstate';
 
 const toggleMachine = Machine({
+    id      : 'toggle',
     initial : 'inactive',
     states : {
         inactive : {
@@ -18,20 +20,20 @@ const toggleMachine = Machine({
     }
 });
 
-const toggleService = interpret(toggleMachine)
-    .onTransition(state => console.log(state.value))
-    .start();
+// const t
 
-toggleService.send('TOGGLE');
+const Toggler = () => {
+    const [ current, send ] = useMachine(toggleMachine);
 
-toggleService.send('TOGGLE');
-
-class MyComp extends React.Component {
-    render() {
-        return (
-            <div>This is a div</div>
-        );
-    }
+    return (
+        <button onClick={() => send('TOGGLE')} >
+            {
+                current.value === 'inactive' ?
+                    'activate' :
+                    'deactivate'
+            }
+        </button>
+    );
 }
 
-ReactDOM.render(<MyComp />, document.getElementById('mount'));
+ReactDOM.render(<Toggler />, document.getElementById('mount'));
