@@ -1,6 +1,7 @@
-import React from 'react';
+import React    from 'react';
 import ReactDOM from 'react-dom';
-import { useMachine } from '@xstate/react';
+
+import { useMachine }         from '@xstate/react';
 import { Machine, interpret } from 'xstate';
 
 const toggleMachine = Machine({
